@@ -17,7 +17,9 @@ class HomeScreen extends ConsumerWidget {
               hintText: 'Search',
               border: OutlineInputBorder(),
             ),
-            onChanged: (value){},
+            onChanged: (value){
+              ref.read(favouriteProvider.notifier).searchItem(value);
+            },
           ),
           Expanded(
             child: ListView.builder(
