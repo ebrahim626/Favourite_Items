@@ -12,11 +12,18 @@ class HomeScreen extends ConsumerWidget {
       appBar: AppBar(title: Center(child: Text('MoboData'))),
       body: Column(
         children: [
+          TextField(
+            decoration: InputDecoration(
+              hintText: 'Search',
+              border: OutlineInputBorder(),
+            ),
+            onChanged: (value){},
+          ),
           Expanded(
             child: ListView.builder(
-              itemCount: favourite.favouriteItem.length,
+              itemCount: favourite.filteredItem.length,
               itemBuilder: (context, index) {
-                final currentItem = favourite.favouriteItem[index];
+                final currentItem = favourite.filteredItem[index];
                 return ListTile(
                   title: Text(currentItem.name),
                   trailing: currentItem.favourite

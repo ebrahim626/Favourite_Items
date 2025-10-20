@@ -8,7 +8,7 @@ final favouriteProvider = StateNotifierProvider<FavouriteNotifier, FavouriteStat
 });
 
 class FavouriteNotifier extends StateNotifier<FavouriteStates> {
-  FavouriteNotifier() : super(FavouriteStates(allItem: [], favouriteItem: [], search: ''));
+  FavouriteNotifier() : super(FavouriteStates(allItem: [], filteredItem: [], search: ''));
 
   void addItem() {
     List<Item> item = [
