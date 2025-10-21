@@ -11,18 +11,20 @@ class HomeScreen extends ConsumerWidget {
     final favourite = ref.watch(favouriteProvider);
     final future = ref.watch(futureProvider);
     return Scaffold(
-      appBar: AppBar(title: Center(
-          child: Text('MoboData')), 
-        actions: [PopupMenuButton(
-          onSelected: (value){
-            ref.read(favouriteProvider.notifier).favourite(value);
-          },
-            itemBuilder: (context){
-            return [
-              PopupMenuItem(value: 'All',child: Text('All'),),
-              PopupMenuItem(value: 'Favourite',child: Text('Favourite'),),
-            ];
-            })
+      appBar: AppBar(
+        title: Center(child: Text('MoboData')),
+        actions: [
+          PopupMenuButton(
+            onSelected: (value) {
+              ref.read(favouriteProvider.notifier).favourite(value);
+            },
+            itemBuilder: (context) {
+              return [
+                PopupMenuItem(value: 'All', child: Text('All')),
+                PopupMenuItem(value: 'Favourite', child: Text('Favourite')),
+              ];
+            },
+          ),
         ],
       ),
       body: Column(
@@ -32,31 +34,47 @@ class HomeScreen extends ConsumerWidget {
               hintText: 'Search',
               border: OutlineInputBorder(),
             ),
-            onChanged: (value){
+            onChanged: (value) {
               ref.read(favouriteProvider.notifier).searchItem(value);
             },
           ),
           Expanded(
-            child: ListView.builder(
-              itemCount: favourite.filteredItem.length,
-              itemBuilder: (context, index) {
-                final currentItem = favourite.filteredItem[index];
-                return ListTile(
-                  title: Text(currentItem.name),
-                  trailing: currentItem.favourite
-                      ? Icon(Icons.favorite)
-                      : Icon(Icons.favorite_border),
-                );
-              },
+            child:
+                ListView.builder(
+                  itemCount: favourite.filteredItem.length,
+                  itemBuilder: (context, index) {
+                    final currentItem = favourite.filteredItem[index];
+                    return ListTile(
+                      title: Text(currentItem.name),
+                      trailing: currentItem.favourite
+                          ? Icon(Icons.favorite)
+                          : Icon(Icons.favorite_border),
+                    );
+                  },
+                ),
+          ),
+          Expanded(
+            child: future.when(
+              skipLoadingOnReload: false,
+              data: (value){return ListView.builder(
+                  itemCount: value.length,
+                  itemBuilder: (context, index){
+                    return ListTile(title: Text(value[index]),);
+                  }
+              );},
+              error: (error,stack) => Text(error.toString()),
+              loading: () => CircularProgressIndicator(),
             ),
           ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){
+        onPressed: () {
           ref.read(favouriteProvider.notifier).addItem();
+          ref.refresh(futureProvider);
         },
-        child: Icon(Icons.add),),
+        child: Icon(Icons.add),
+      ),
     );
   }
 }
