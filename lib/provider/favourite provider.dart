@@ -35,11 +35,11 @@ class FavouriteNotifier extends StateNotifier<FavouriteStates> {
   }
 
   List<Item> _favouriteItem(List<Item> item, String option) {
-    if (option == "all") {
+    if (option == "All") {
       return item;
     }
     return item
-        .where((item) => item.name.toLowerCase().contains(search.toLowerCase()))
+        .where((item) => item.favourite == true)
         .toList();
   }
 
