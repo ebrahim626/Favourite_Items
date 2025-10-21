@@ -39,31 +39,36 @@ class HomeScreen extends ConsumerWidget {
             },
           ),
           Expanded(
-            child:
-                ListView.builder(
-                  itemCount: favourite.filteredItem.length,
-                  itemBuilder: (context, index) {
-                    final currentItem = favourite.filteredItem[index];
-                    return ListTile(
-                      title: Text(currentItem.name),
-                      trailing: currentItem.favourite
-                          ? Icon(Icons.favorite)
-                          : Icon(Icons.favorite_border),
-                    );
-                  },
-                ),
-          ),
-          Expanded(
             child: future.when(
               skipLoadingOnReload: false,
-              data: (value){return ListView.builder(
-                  itemCount: value.length,
-                  itemBuilder: (context, index){
-                    return ListTile(title: Text(value[index]),);
-                  }
-              );},
-              error: (error,stack) => Text(error.toString()),
-              loading: () => CircularProgressIndicator(),
+              data: (value) {
+                return ListView(
+                  children: [
+                    // Section 1: favourite items
+                    ...favourite.filteredItem.map((currentItem) => ListTile(
+                      title: Text(currentItem.name),
+                      trailing: Icon(
+                        currentItem.favourite
+                            ? Icons.favorite
+                            : Icons.favorite_border,
+                      ),
+                    )),
+
+                    const Divider(thickness: 1),
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text('Future Data',
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold)),
+                    ),
+
+                    // Section 2: future data
+                    ...value.map((v) => ListTile(title: Text(v.toString()))),
+                  ],
+                );
+              },
+              error: (error, stack) => Center(child: Text(error.toString())),
+              loading: () => const Center(child: CircularProgressIndicator()),
             ),
           ),
         ],
