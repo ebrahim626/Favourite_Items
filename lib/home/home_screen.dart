@@ -1,3 +1,4 @@
+import 'package:favourite_items/provider/future_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../provider/favourite provider.dart';
@@ -8,6 +9,7 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     final favourite = ref.watch(favouriteProvider);
+    final future = ref.watch(futureProvider);
     return Scaffold(
       appBar: AppBar(title: Center(
           child: Text('MoboData')), 
