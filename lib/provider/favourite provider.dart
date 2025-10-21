@@ -31,11 +31,11 @@ class FavouriteNotifier extends StateNotifier<FavouriteStates> {
   }
 
   void favourite(String option){
-    state = state.copyWith(favouriteItem: _filterItem(state.allItem, option));
+    state = state.copyWith(favouriteItem: _favouriteItem(state.allItem, option));
   }
 
-  List<Item> _favouriteItem(List<Item> item, String search) {
-    if (search.isEmpty) {
+  List<Item> _favouriteItem(List<Item> item, String option) {
+    if (option == "all") {
       return item;
     }
     return item
