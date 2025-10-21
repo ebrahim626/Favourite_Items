@@ -74,8 +74,9 @@ class HomeScreen extends ConsumerWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
+        onPressed: () async {
           ref.read(favouriteProvider.notifier).addItem();
+          await Future.delayed(Duration(milliseconds: 100));
           ref.refresh(futureProvider);
         },
         child: Icon(Icons.add),
