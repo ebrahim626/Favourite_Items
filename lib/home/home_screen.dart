@@ -9,7 +9,20 @@ class HomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, ref) {
     final favourite = ref.watch(favouriteProvider);
     return Scaffold(
-      appBar: AppBar(title: Center(child: Text('MoboData'))),
+      appBar: AppBar(title: Center(
+          child: Text('MoboData')), 
+        actions: [PopupMenuButton(
+          onSelected: (value){
+            ref.read(favouriteProvider.notifier).favourite(value);
+          },
+            itemBuilder: (context){
+            return [
+              PopupMenuItem(value: 'All',child: Text('All'),),
+              PopupMenuItem(value: 'Favourite',child: Text('Favourite'),),
+            ];
+            })
+        ],
+      ),
       body: Column(
         children: [
           TextField(
